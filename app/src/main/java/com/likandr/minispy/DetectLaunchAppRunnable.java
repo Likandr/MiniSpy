@@ -23,7 +23,7 @@ public class DetectLaunchAppRunnable implements Runnable {
 
     private List<String> oldList = new ArrayList<>();
 
-    private void asdg() {
+    private void mainFunc() {
         List<String> newList = new ArrayList<>();
         List<AndroidAppProcess> processes = AndroidProcesses.getRunningAppProcesses();
         for (AndroidAppProcess process : processes) {
@@ -50,7 +50,7 @@ public class DetectLaunchAppRunnable implements Runnable {
 
     @Override
     public void run() {
-        asdg();
+        mainFunc();
         mHandler.postDelayed(this, DELAY);
     }
 
