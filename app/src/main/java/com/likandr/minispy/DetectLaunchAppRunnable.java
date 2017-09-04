@@ -33,8 +33,8 @@ public class DetectLaunchAppRunnable implements Runnable {
 
     private void mainFunc() {
         List<String> newList =
-                android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ?
-                getTargetList21() : getTargetList();
+                android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?
+                getTargetList24() : getTargetList();
 
         List<String> newApp = new ArrayList<>();
         if (oldList.size() == 0) {
@@ -64,7 +64,7 @@ public class DetectLaunchAppRunnable implements Runnable {
     }
 
     @TargetApi(21)
-    private List<String> getTargetList21() {
+    private List<String> getTargetList24() {
         List<String> result = new ArrayList<>();
         List<UsageStats> processes = USUtils.getUsageStatsList(mContext);
         for (UsageStats process : processes) {
