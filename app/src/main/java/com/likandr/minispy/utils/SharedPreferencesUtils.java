@@ -1,10 +1,11 @@
-package com.likandr.minispy;
+package com.likandr.minispy.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.likandr.minispy.BigData;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -41,16 +42,18 @@ public final class SharedPreferencesUtils {
         return getPreferences().edit();
     }
 
-    public static void storeProcessList(List<String> list){
-        String string = getPreferences().getString(KEY_ProcessList, "");
-        List<String> listTemp = strToList(string);
+    public static boolean isProcessListEmpty(){
+        return getPreferences().getString(KEY_ProcessList, "").isEmpty();
+    }
 
+    public static void setProcessList(List<BigData> list){
+        List<BigData> listTemp = new ArrayList<>();
         if (listTemp.addAll(list)) {
             getEditor().putString(KEY_ProcessList, listToStr(listTemp)).apply();
         }
     }
 
-    public static List<String> getProcessList(){
+    public static List<BigData> getProcessList(){
         String string = getPreferences().getString(KEY_ProcessList, "");
         return strToList(string);
     }
@@ -59,13 +62,13 @@ public final class SharedPreferencesUtils {
         getEditor().remove(KEY_ProcessList).apply();
     }
 
-    private static String listToStr(List<String> list) {
+    private static String listToStr(List<BigData> list) {
         return gson.toJson(list);
     }
 
-    private static List<String> strToList(String str) {
-        Type type = new TypeToken<List<String>>(){}.getType();
-        List<String> result = gson.fromJson(str, type);
-        return result != null ? result : new ArrayList<String>();
+    private static List<BigData> strToList(String str) {
+        Type type = new TypeToken<List<BigData>>(){}.getType();
+        List<BigData> result = gson.fromJson(str, type);
+        return result != null ? result : new ArrayList<BigData>();
     }
 }

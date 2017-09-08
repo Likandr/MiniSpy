@@ -13,6 +13,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.likandr.minispy.utils.SharedPreferencesUtils;
+import com.likandr.minispy.utils.USUtils;
+import com.likandr.minispy.utils.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     boolean serviceON = false;
 
-    List<String> listForShow = new ArrayList<>();
+    List<BigData> listForShow = new ArrayList<>();
     ArrayAdapter<String> mAdapter;
 
     ListView lvProcesses;
@@ -33,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                && USUtils.getUsageStatsList(this).isEmpty()){
+                && USUtils.getUsageStats(this).isEmpty()){
                 Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
                 startActivity(intent);
         }
@@ -78,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         listForShow = SharedPreferencesUtils.getProcessList();
-        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listForShow);
+        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
+                Utils.formatListBigData(listForShow));
         lvProcesses.setAdapter(mAdapter);
     }
 
