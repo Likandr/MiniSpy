@@ -1,11 +1,14 @@
 package com.likandr.minispy.utils;
 
 import android.annotation.TargetApi;
-import android.app.usage.UsageEvents;
+import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 public class USUtils {
 
@@ -15,19 +18,19 @@ public class USUtils {
             java.util.Locale.getDefault());
 
     @TargetApi(21)
-    public static String getUsageStats(Context context) {
+    public static List<UsageStats> getUsageStatsList(Context context){
         UsageStatsManager usm = getUsageStatsManager(context);
-        long time = System.currentTimeMillis();
-        UsageEvents usageEvents = usm.queryEvents(time - 100 * 1000, time);
-        UsageEvents.Event event = new UsageEvents.Event();
-        // get last event
-        while (usageEvents.hasNextEvent()) {
-            usageEvents.getNextEvent(event);
-        }
-        if (event.getEventType() == UsageEvents.Event.MOVE_TO_FOREGROUND) {
-            return event.getPackageName();
-        }
-        return "";
+        Calendar calendar = Calendar.getInstance();
+        long endTime = calendar.getTimeInMillis();
+        calendar.add(Calendar.YEAR, -1);
+        long startTime = calendar.getTimeInMillis();
+
+        Log.d(TAG, "Range start:" + dateFormat.format(startTime));
+        Log.d(TAG, "Range end:" + dateFormat.format(endTime));
+
+        List<UsageStats> usageStatsList = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,
+                startTime, endTime);
+        return usageStatsList;
     }
 
     @SuppressWarnings("ResourceType")

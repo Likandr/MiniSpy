@@ -1,7 +1,5 @@
 package com.likandr.minispy.utils;
 
-import android.os.SystemClock;
-
 import com.likandr.minispy.BigData;
 
 import java.util.ArrayList;
